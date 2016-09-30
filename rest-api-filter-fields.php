@@ -88,12 +88,34 @@ function rest_api_filter_fields_magic( $data, $post, $request ){
       //echo $filter;
       
       if (in_array($key, $filter)) {
+
+        switch ($key) {
+          case "acf": {
+            // need a case wher I didnt call for anything within acf fields.
+            $acf = $data->data["acf"];
+            //echo $acf;
+
+            foreach ($acf as $key_acf => $value_acf) {
+              // echo $value_acf;
+              if (in_array($key_acf, $filter)) {
+                $filtered_data["acf"][$key_acf] = $value_acf;
+              }
+              
+            }
+          }
+          break;
+          default:
+            $filtered_data[$key] = $value;
+        }
+
+
+        /*
         if ($key == "acf") {
+          // once it comes here it only hits once.
           $acf = $data->data["acf"];
           //echo $acf;
 
           foreach ($acf as $key_acf => $value_acf) {
-
             // echo $value_acf;
             if (in_array($key_acf, $filter)) {
               $filtered_data["acf"][$key_acf] = $value_acf;
@@ -102,8 +124,12 @@ function rest_api_filter_fields_magic( $data, $post, $request ){
           }
         }
         else {
-          $filtered_data[$key] = $value;  
+          $filtered_data[$key] = $value;
         }
+        */
+
+        
+        
         
       }
       
