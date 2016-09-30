@@ -77,10 +77,37 @@ function rest_api_filter_fields_magic( $data, $post, $request ){
     // The original data is in $data object in the property data
     // Foreach property inside the data, check if the key is in the filter.
     foreach ($data->data as $key => $value) {
+      //echo $key;
       // If the key is in the $filter array, add it to the $filtered_data
+      // original
+      /*
       if (in_array($key, $filter)) {
         $filtered_data[$key] = $value;
       }
+      */
+      //echo $filter;
+      
+      if (in_array($key, $filter)) {
+        if ($key == "acf") {
+          $acf = $data->data["acf"];
+          //echo $acf;
+
+          foreach ($acf as $key_acf => $value_acf) {
+
+            // echo $value_acf;
+            if (in_array($key_acf, $filter)) {
+              $filtered_data["acf"][$key_acf] = $value_acf;
+            }
+            
+          }
+        }
+        else {
+          $filtered_data[$key] = $value;  
+        }
+        
+      }
+      
+
     }
 
   }
